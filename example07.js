@@ -32,7 +32,7 @@ var sendValueViaWebSocket = function(){};
 board.on("ready", function() {
 
 wss.on('connection', function (ws) {
-    ws.send("Server connected.");
+    ws.send("Server connected");
  
   sendValueViaWebSocket = function(value) {
         ws.send(value);
