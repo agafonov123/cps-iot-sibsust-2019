@@ -20,14 +20,19 @@
 <canvas id="canvas6" width = "200" height = "100" style="border: 1px dashed #00c3c3;"></canvas>
 <p></p>
 </div>
-Position: <input id="position" value=512 />    
+Position: <input id="position" value=512 />
+Set Algorithm: <input id="whichAlgorithm" value=1 />
 <button id="sendPosition" onClick="sendPosition()">Send position</button>
+<br>
 <button id="pulse" onClick="pulse()">Send pulse</button>
+<button id="buttonStop1" onClick="stop()">STOP</button>
+<br>
+Pulse duration in s: <input id="pulseDuration" value="7" size="5" />
 <button id="pulsetimed" onClick="pulseTimed()">Send pulse Timed</button>
-<button id="buttonStop" onClick="stop()">STOP</button>
+<button id="buttonStop2" onClick="stop()">STOP</button>
 <br>
 
-pCoeff: <input id="pCoeff" value="0.4" size="5" />
+pCoeff: <input id="pCoeff" value="0.1" size="5" />
 <button id="buttonStartControlAlgorithm1" onClick="startControlAlgorithm1();">Start Ctrl Alg1</button>
 <button id="buttonStopControlAlgorithm" onClick="stopControlAlgorithm();">Stop Ctrl Alg</button>
 <p></p>
@@ -41,6 +46,7 @@ Kp: <input id="Kp2" value="0.5" size = "5" />
 Ki: <input id="Ki2" value="0.008" size = "5" />
 Kd: <input id="Kd2" value="0.35" size = "5" />
 <button id="buttonStartControlAlgorithm3" onClick="startControlAlgorithm3();">Start Ctrl Alg3</button>
+<button id="buttonStopControlAlgorithm" onClick="stopControlAlgorithm();">Stop Ctrl Alg</button>
 
 
 
@@ -244,34 +250,38 @@ function startControlAlgorithm2() {
 
 function sendPosition () {
     var positionValue = document.getElementById("position").value;
+    stopControlAlgorithm(); // stop just in case
+    switchAlgorihtm();
     messageJSON = {"type": "sendPosition", "positionValue": positionValue};
     ws.send(JSON.stringify(messageJSON)); // we have to stringify JSON to send it over websocket 
 };
-    
-function pulse() {
+    function pulse() {
     var positionInterval = 0;
     intervalPulseFunction = setInterval(function() {
-    if (positionInterval == 200) {
-        positionInterval = 804;
+    if (positionInterval == 320) {
+        positionInterval = 704;
     }
     else {
-        positionInterval = 200;
+        positionInterval = 320;
     }
     messageJSON = {"type": "sendPosition", "positionValue": positionInterval};
     ws.send(JSON.stringify(messageJSON)); // we have to stringify JSON to send it over websocket 
-    }, 2500);
-}
+    }, 2000);
+    }
     
 function stop () {
-        document.getElementById("divForStaticPrint").innerHTML = document.getElementById("divForStaticPrint").innerHTML + " | C = " + performanceMeasure;
-        clearInterval(intervalPulseFunction);
-        stopControlAlgorithm();
+document.getElementById("divForStaticPrint").innerHTML = document.getElementById("divForStaticPrint").innerHTML + " | C = " + performanceMeasure;
+clearInterval(intervalPulseFunction);
+stopControlAlgorithm();
 }
 
 function pulseTimed () {
-        startControlAlgorithm2();
-        pulse();
-        setTimeout(function() {stop();}, 12000); // wait for 12000ms to get performance measure value out
+    // first stop ctrlAlg, just in case
+    stopControlAlgorithm ();
+    switchAlgorihtm();
+    pulse(); // starting pulse function
+    var pulseDuration = document.getElementById("pulseDuration").value;
+    setTimeout(function() {stop();}, pulseDuration * 1000); // wait for 3s to get performance measure value out
 }
 
 function startControlAlgorithm3() {
@@ -282,7 +292,24 @@ function startControlAlgorithm3() {
     messageJSON = {"type": "startControlAlgorithm", "ctrlAlgNo": 3, "Kp2": Kp2, "Ki2": Ki2, "Kd2": Kd2};
     ws.send(JSON.stringify(messageJSON)); // we have to stringify JSON to send it over websocket
 }
-    
+
+function switchAlgorihtm () {
+    var whichAlgorithm = document.getElementById("whichAlgorithm").value;
+    switch (whichAlgorithm) {
+        case "1":
+            startControlAlgorithm1();
+        break;
+        case "2":
+            startControlAlgorithm2();
+        break;
+        case "3":
+            startControlAlgorithm3();
+        break;    
+    }
+}
+
+
+
 function stopControlAlgorithm () {
     messageJSON = {"type": "stopControlAlgorithm"};
     ws.send(JSON.stringify(messageJSON)); // we have to stringify JSON to send it over websocket    

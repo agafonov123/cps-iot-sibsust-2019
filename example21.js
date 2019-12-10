@@ -47,11 +47,11 @@ function handler(req, res) {
 }
 
 var desiredValue = 0; // desired value var
-var actualValue = 0; // variable for actual value (output value)
+var actualValue = 0;  // variable for actual value (output value)
 
-var Kp1 = 0.55; // proportional factor of PID controller
+var Kp1 = 0.55;  // proportional factor of PID controller
 var Ki1 = 0.008; // integral factor of PID controller
-var Kd1 = 0.15; // differential factor of PID controller
+var Kd1 = 0.15;  // differential factor of PID controller
 
 var factor = 0.3; // proportional factor that determines speed of resonse
 

@@ -34,7 +34,7 @@ var board = new firmata.Board("/dev/ttyACM0", function(){
     board.pinMode(0, board.MODES.ANALOG); // analog pin 0
     board.pinMode(1, board.MODES.ANALOG); // analog pin 1
     board.pinMode(2, board.MODES.OUTPUT); // direction of DC motor
-    board.pinMode(3, board.MODES.PWM); // PWM of motor i.e. speed of rotation
+    board.pinMode(3, board.MODES.PWM);    // PWM of motor i.e. speed of rotation
     board.pinMode(4, board.MODES.OUTPUT); // direction DC motor
 });
 
@@ -51,10 +51,10 @@ function handler(req, res) {
 }
 
 var desiredValue = 0; // desired value var
-var actualValue = 0; // variable for actual value (output value)
+var actualValue = 0;  // variable for actual value (output value)
 
 var pwm;
-var factor = 0.1; // proportional factor that determines the speed of aproaching toward desired value
+var factor = 1.5;  // proportional factor that determines the speed of aproaching toward desired value
 
 http.listen(8080); // server will listen on port 8080
 
@@ -91,7 +91,7 @@ board.on("ready", function() {
 
 function controlAlgorithm () {
     pwm = factor*(desiredValue-actualValue);
-    if(pwm > 255) {pwm = 255}; // to limit the value for pwm / positive
+    if(pwm > 255) {pwm = 255};   // to limit the value for pwm / positive
     if(pwm < -255) {pwm = -255}; // to limit the value for pwm / negative
     if (pwm > 0) {board.digitalWrite(2,1); board.digitalWrite(4,0);}; // pwm > 0
     if (pwm < 0) {board.digitalWrite(2,0); board.digitalWrite(4,1);}; // pwm < 0

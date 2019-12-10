@@ -46,8 +46,8 @@ var desiredValue = 0; // desired value var
 var actualValue = 0;  // variable for actual value (output value)
 
 var Kp = 0.75; //0.55;  // proportional factor of PID controller
-var Ki = 0;    //0.008; // integral factor of PID controller
-var Kd = 0;    //0.15;  // differential factor of PID controller
+var Ki = 0.008;    //0.008; // integral factor of PID controller
+var Kd = 0.15;    //0.15;  // differential factor of PID controller
 
 var factor = 0.3; // proportional factor that determines speed of resonse
 var pwm = 0; // set pwm as global variable
