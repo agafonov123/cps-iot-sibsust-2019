@@ -251,11 +251,11 @@ function sendPosition () {
 function pulse() {
     var positionInterval = 0;
     intervalPulseFunction = setInterval(function() {
-    if (positionInterval == 200) {
-        positionInterval = 804;
+    if (positionInterval == 300) {
+        positionInterval = 700;
     }
     else {
-        positionInterval = 200;
+        positionInterval = 300;
     }
     messageJSON = {"type": "sendPosition", "positionValue": positionInterval};
     ws.send(JSON.stringify(messageJSON)); // we have to stringify JSON to send it over websocket 
@@ -283,7 +283,7 @@ function startControlAlgorithm3() {
     ws.send(JSON.stringify(messageJSON)); // we have to stringify JSON to send it over websocket
 }
     
-function stopControlAlgorithm () {
+function stopControlAlgorithm() {
     messageJSON = {"type": "stopControlAlgorithm"};
     ws.send(JSON.stringify(messageJSON)); // we have to stringify JSON to send it over websocket    
 }

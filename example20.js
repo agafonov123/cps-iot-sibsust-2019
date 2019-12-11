@@ -35,7 +35,7 @@ function handler(req, res) {
     function (err, data) {
         if (err) {
             res.writeHead(500, {"Content-Type": "text/plain"});
-            return res.end("Error loading html page.");
+            return res.end("Error loading html page");
         }
     res.writeHead(200);
     res.end(data);
@@ -45,9 +45,9 @@ function handler(req, res) {
 var desiredValue = 0; // desired value var
 var actualValue = 0; // variable for actual value (output value)
 
-var Kp1 = 0.55; // proportional factor of PID controller
+var Kp1 = 0.55;  // proportional factor of PID controller
 var Ki1 = 0.008; // integral factor of PID controller
-var Kd1 = 0.15; // differential factor of PID controller
+var Kd1 = 0.15;  // differential factor of PID controller
 
 var factor = 0.3; // proportional factor that determines speed of resonse
 
@@ -129,10 +129,10 @@ function controlAlgorithm (msg) { // the parameter in the argument holds ctrlAlg
         pwm = KpE + KiIedt + KdDe_dt; // we use above parts for PID expression
 
         lastErr = err; // save the value of error for next cycle to estimate the derivative
-            if(pwm > pwmLimit) {pwm = pwmLimit}; // to limit the value for pwm / positive
+            if(pwm > pwmLimit) {pwm = pwmLimit};   // to limit the value for pwm / positive
             if(pwm < -pwmLimit) {pwm = -pwmLimit}; // to limit the value for pwm / negative
-            if (pwm > 0) {board.digitalWrite(2,1); board.digitalWrite(4,0);}; // determine direction if > 0
-            if (pwm < 0) {board.digitalWrite(2,0); board.digitalWrite(4,1);}; // determine direction if < 0
+            if(pwm > 0) {board.digitalWrite(2,1); board.digitalWrite(4,0);}; // determine direction if > 0
+            if(pwm < 0) {board.digitalWrite(2,0); board.digitalWrite(4,1);}; // determine direction if < 0
         board.analogWrite(3, Math.abs(pwm));
         };
 }

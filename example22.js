@@ -26,7 +26,7 @@ console.log("Starting the code");
 
 var board = new firmata.Board("/dev/ttyACM0", function(){
     console.log("Connecting to Arduino");
-    console.log("Enabling analog Pin 0");
+    console.log("Enabling analog Pins 0, 2");
     board.pinMode(0, board.MODES.ANALOG); // analog pin 0
     board.pinMode(1, board.MODES.ANALOG); // analog pin 1
     board.pinMode(2, board.MODES.OUTPUT); // direction of DC motor
@@ -39,7 +39,7 @@ function handler(req, res) {
     function (err, data) {
         if (err) {
             res.writeHead(500, {"Content-Type": "text/plain"});
-            return res.end("Error loading html page.");
+            return res.end("Error loading html page");
         }
     res.writeHead(200);
     res.end(data);
@@ -141,8 +141,8 @@ function controlAlgorithm (msg) { // the parameter in the argument holds ctrlAlg
         lastErr = err; // save the value of error for next cycle to estimate the derivative
             if(pwm > pwmLimit) {pwm = pwmLimit}; // to limit the value for pwm / positive
             if(pwm < -pwmLimit) {pwm = -pwmLimit}; // to limit the value for pwm / negative
-            if (pwm > 0) {board.digitalWrite(2,1); board.digitalWrite(4,0);}; // determine direction if > 0
-            if (pwm < 0) {board.digitalWrite(2,0); board.digitalWrite(4,1);}; // determine direction if < 0
+            if(pwm > 0) {board.digitalWrite(2,1); board.digitalWrite(4,0);}; // determine direction if > 0
+            if(pwm < 0) {board.digitalWrite(2,0); board.digitalWrite(4,1);}; // determine direction if < 0
         board.analogWrite(3, Math.abs(pwm));
         };
     if(msg.ctrlAlgNo == 3) {
@@ -177,7 +177,7 @@ function startControlAlgorithm (msg) {
         lastErr = 0; // Reset value which keeps the value of previous error to estimate derivative
         controlAlgorithmStartedFlag = 1;
         intervalCtrl = setInterval(function(){controlAlgorithm(msg);}, 30); // call the alg. on 30ms
-        console.log("Control algorithm has been started.");
+        console.log("Control algorithm has been started");
         messageJSON = {"type": "staticMsgToClient", "content": " No. " + msg.ctrlAlgNo + " started | " + json2txt(msg)};
         wss.broadcast(JSON.stringify(messageJSON));
         parametersStore = msg; // store to report back to the client on algorithm stop

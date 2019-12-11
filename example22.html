@@ -49,7 +49,6 @@ Kd: <input id="Kd2" value="0.35" size = "5" />
 <button id="buttonStopControlAlgorithm" onClick="stopControlAlgorithm();">Stop Ctrl Alg</button>
 
 
-
 <div id="divForStaticPrint"> </div>
 <p></p>
 
@@ -172,7 +171,6 @@ class Graph {
         this.ctx.fillText("<-" + this.axisDescription[0] + "|" + this.axisDescription[1] + "->", 150, 95)
         this.ctx.fillText(this.axisDescription[2], 5, 95);
         this.ctx.fillText(this.axisDescription[3], 5, 11);
-        
     }
 }
 
@@ -192,7 +190,6 @@ class LogDiv {
         }
         this.linesPrintCounter++; // increasing the number of printouts
     } 
-    
 }    
 
 ws.onmessage = function(event) {
@@ -255,7 +252,8 @@ function sendPosition () {
     messageJSON = {"type": "sendPosition", "positionValue": positionValue};
     ws.send(JSON.stringify(messageJSON)); // we have to stringify JSON to send it over websocket 
 };
-    function pulse() {
+
+function pulse() {
     var positionInterval = 0;
     intervalPulseFunction = setInterval(function() {
     if (positionInterval == 320) {
@@ -267,12 +265,12 @@ function sendPosition () {
     messageJSON = {"type": "sendPosition", "positionValue": positionInterval};
     ws.send(JSON.stringify(messageJSON)); // we have to stringify JSON to send it over websocket 
     }, 2000);
-    }
+}
     
 function stop () {
-document.getElementById("divForStaticPrint").innerHTML = document.getElementById("divForStaticPrint").innerHTML + " | C = " + performanceMeasure;
-clearInterval(intervalPulseFunction);
-stopControlAlgorithm();
+    document.getElementById("divForStaticPrint").innerHTML = document.getElementById("divForStaticPrint").innerHTML + " | C = " + performanceMeasure;
+    clearInterval(intervalPulseFunction);
+    stopControlAlgorithm();
 }
 
 function pulseTimed () {
@@ -307,8 +305,6 @@ function switchAlgorihtm () {
         break;    
     }
 }
-
-
 
 function stopControlAlgorithm () {
     messageJSON = {"type": "stopControlAlgorithm"};

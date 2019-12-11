@@ -78,7 +78,7 @@ board.on("ready", function() {
     });
     board.analogRead(1, function(value) {
         actualValue = value; // continuous read of pin A1
-        if(actualValue < 120 || actualValue > 900) { // prevent spinning of motor
+        if(actualValue < 100 || actualValue > 850) { // prevent spinning of motor
             stopControlAlgorithm(1); // parameter 1  marks emergency stop
         }
     });
