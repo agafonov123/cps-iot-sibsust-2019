@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<!-- Exam component - E.Agafonov  2019 -->
+
+<html>
+<head>
+<title>Example with needle</title>    
+</head>
+    
+<body>
+<br>
+<input type="range" id="slider_id" name="slider_name" min="0" max="1023" value="512" step="1" list="tickmarks" style="width: 200px;">
+<datalist id="tickmarks">
+  <option value="0" label="0">
+  <option value="512" label="512">
+  <option value="1023" label="1023">
+</datalist>
+<br>
+<br>
+<canvas id="canvas" width="200" height="200" style="border:1px dashed #00c3c3"></canvas>
+
+<script type="text/javascript">
+"use strict"; // enable classes
+    
+needle();
+
+function needle(){
+    var ctx = document.getElementById('canvas').getContext('2d');
+    ctx.save();
+    ctx.clearRect(0,0,200,200);
+    ctx.translate(100,100);
+    ctx.scale(0.5,0.5);
+    ctx.rotate(-Math.PI/2);
+    // draw and rotate needle
+    var angle = (document.getElementById("slider_id").value-512)/1024*300;
+    ctx.save();
+    ctx.rotate(angle * Math.PI/180);
+    ctx.strokeStyle = "#D40000";
+    ctx.fillStyle = "#D40000";
+    ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.moveTo(0,-15);
+    ctx.lineTo(190,0);
+    ctx.moveTo(0,15);
+    ctx.lineTo(190,0);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(0,0,20,0,Math.PI*2,true); // draw bearing
+    ctx.fill();
+    ctx.restore();
+    ctx.restore();
+  
+    window.requestAnimationFrame(needle);
+  }
+window.requestAnimationFrame(needle);
+</script>
+
+</body>    
+    
+</html>
